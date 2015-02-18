@@ -41,12 +41,29 @@ from ralph_assets.licences.models import LicenceType, SoftwareCategory
 from ralph_assets.models_support import Support, SupportType
 
 
+class RegionFilter(SimpleListFilter):
+    """
+    Allow to filter regions valid for current user
+    """
+    title = _('region')
+    parameter_name = 'region'
+
+    def lookups(self, request, model_admin):
+        return [(r.id, r.name) for r in middleware.get_actual_regions()]
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(region_id=self.value())
+        else:
+            return queryset
+
+
 class SupportAdmin(ModelAdmin):
     raw_id_fields = ('assets',)
     date_hierarchy = 'date_to'
     exclude = ('attachments',)
     list_display = ('name', 'contract_id',)
-    list_filter = ('asset_type', 'status',)
+    list_filter = ('asset_type', 'status', RegionFilter,)
     list_display = (
         'name',
         'contract_id',
@@ -127,23 +144,6 @@ class BudgetInfoAdmin(ModelAdmin):
 admin.site.register(models_assets.BudgetInfo, BudgetInfoAdmin)
 
 
-class AssetRegionFilter(SimpleListFilter):
-    """
-    Allow to filter assets by region
-    """
-    title = _('region')
-    parameter_name = 'region'
-
-    def lookups(self, request, model_admin):
-        return [(r.id, r.name) for r in middleware.get_actual_regions()]
-
-    def queryset(self, request, queryset):
-        if self.value():
-            return queryset.filter(region_id=self.value())
-        else:
-            return queryset
-
-
 class AssetAdminForm(forms.ModelForm):
     class Meta:
         model = models_assets.Asset
@@ -187,7 +187,7 @@ class AssetAdmin(ModelAdmin):
         'device_info__ralph_device_id',
     )
     list_display = ('sn', 'model', 'type', 'barcode', 'status', 'deleted',)
-    list_filter = ('type', AssetRegionFilter)
+    list_filter = ('type', RegionFilter)
     form = AssetAdminForm
 
     def has_delete_permission(self, request, obj=None):
@@ -335,7 +335,9 @@ class LicenceAdmin(ModelAdmin):
     list_display = (
         name, 'licence_type', 'number_bought', 'niw', 'asset_type', 'provider',
     )
-    list_filter = ('licence_type', 'asset_type', 'budget_info', 'provider',)
+    list_filter = (
+        'licence_type', 'asset_type', 'budget_info', 'provider', RegionFilter,
+    )
 
 
 admin.site.register(Licence, LicenceAdmin)

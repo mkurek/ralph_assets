@@ -31,6 +31,8 @@ from ralph_assets.models_assets import (
 )
 from ralph_assets.models_util import (
     Regionalized,
+    RegionalizedDBManager,
+    SoftDeletableRegionalizedDBManager,
 )
 
 
@@ -102,6 +104,8 @@ class Support(
         null=True,
     )
     assets = models.ManyToManyField(Asset, related_name='supports')
+    admin_objects = RegionalizedDBManager()
+    objects = SoftDeletableRegionalizedDBManager()
 
     def __init__(self, *args, **kwargs):
         self.saving_user = None

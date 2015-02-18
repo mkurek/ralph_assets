@@ -37,6 +37,8 @@ from ralph_assets.models_assets import (
 )
 from ralph_assets.models_util import (
     Regionalized,
+    RegionalizedDBManager,
+    SoftDeletableRegionalizedDBManager,
 )
 from ralph_assets.models_util import WithForm
 from ralph_assets.history.models import History, HistoryMixin
@@ -192,6 +194,8 @@ class Licence(
         null=True,
         on_delete=models.PROTECT,
     )
+    admin_objects = RegionalizedDBManager()
+    objects = SoftDeletableRegionalizedDBManager()
 
     _used = None
 

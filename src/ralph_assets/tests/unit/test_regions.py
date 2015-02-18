@@ -54,7 +54,8 @@ class BaseRegions(object):
         self.assertEqual(self.get_objects_count(), 1)
         self.model_factory(region=dutch_region)
         self.assertEqual(self.get_objects_count(), 2)
-        self.assertEqual(self.get_admin_objects_count(), 3)
+        # admin should see only objects in his regions
+        self.assertEqual(self.get_admin_objects_count(), 2)
 
 
 class TestLicenceRegions(BaseRegions, TestCase):

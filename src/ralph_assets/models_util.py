@@ -13,6 +13,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.db import models
 from lck.django.choices import Choices
+from lck.django.common.models import ViewableSoftDeletableManager
 
 from ralph.account.models import Region
 from ralph import middleware
@@ -67,6 +68,12 @@ class RegionalizedDBManager(models.Manager):
         regions = middleware.get_actual_regions()
         query_set = query_set.filter(region__in=regions)
         return query_set
+
+
+class SoftDeletableRegionalizedDBManager(
+    ViewableSoftDeletableManager, RegionalizedDBManager
+):
+    pass
 
 
 class Regionalized(models.Model):
