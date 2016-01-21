@@ -23,7 +23,7 @@ install:
     - pip install git+https://github.com/allegro/django-bob.git@develop
     - pip install coveralls
     - pip install -e . --use-mirrors
-    - pip install git+https://github.com/allegro/ralph@develop  --use-mirrors --allow-all-external --allow-unverified ipaddr --allow-unverified postmarkup --allow-unverified python-graph-core --allow-unverified pysphere
+    - pip install git+https://github.com/allegro/ralph@develop  --use-mirrors --allow-all-external --allow-unverified ipaddr --allow-unverified postmarkup --allow-unverified python-graph-core --allow-unverified pysphere --find-links=https://pypi.python.org/pypi/pysphere/0.1.8
 before_install:
     - pip install flake8 --use-mirrors
     - make flake
