@@ -254,6 +254,7 @@ class ModelVisualizationLayout(Choices):
     layout_2x8 = _('2x8').extra(css_class='rows-2 cols-8')
     layout_2x8AB = _('2x16 (A/B)').extra(css_class='rows-2 cols-8 half-slots')
     layout_4x2 = _('4x2').extra(css_class='rows-4 cols-2')
+    layout_1x14 = _('1x14').extra(css_class='rows-1 cols-14')
 
 
 class AssetManufacturer(
