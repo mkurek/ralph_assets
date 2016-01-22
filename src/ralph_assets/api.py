@@ -124,6 +124,9 @@ class AssetModelResource(ModelResource):
             timeframe=TIMEFRAME,
             expiration=EXPIRATION,
         )
+        filtering = {
+            'name': ALL,
+        }
 
 
 class AssetOwnerResource(ModelResource):
