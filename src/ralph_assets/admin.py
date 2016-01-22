@@ -49,7 +49,7 @@ class AssetDisabledMixin(object):
         return getattr(settings, 'ASSETS_DISABLED', False)
 
     def has_add_permission(self, request):
-        if not self.assets_disabled:
+        if not self.assets_disabled or request.user.is_superuser:
             return super(AssetDisabledMixin, self).has_add_permission(request)
         return False
 
